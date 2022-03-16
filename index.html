@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.js'></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <label>Enter a Value</label>
+    <input id="valuecurrency"></input>
+    <label>Currency1</label>
+    <input id="currency1"></input>
+    <label>Currency2</label>
+    <input id="currency2"></input>
+    <button id="convert">convert</button>
+
+<br>
+    <label>result</label>>
+    <textarea id=valueConverted> </textarea>  
+
+
+</body>
+<!--
+<script>
+    fetch("http://localhost:9090/ServicioPaises/Calculos?WSDL", {
+            body: JSON.stringify({ ingresarCantidad: '#valuecurrency', de: '#currency1', a: '#currency2' }),
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(valor => {
+                console.log(valor);
+})
+</script>
+-->
+<script>src="xml2json.js"</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#convert').click(function () {
+            let valuecurrency = $('#valuecurrency').val()
+            let currencyName1 = $('#currency1').val()
+            let currencyName2 = $('#currency2').val()
+
+            alert("valuecurrency -> " + valuecurrency);
+            alert("currencyName1 -> " + currencyName1);
+            alert("currencyName2 -> " + currencyName2);
+
+            var settings = {
+                "url": "http://localhost:9090/ServicioPaises/Calculos?WSDL",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "text/xml"
+                },
+            "data" :
+                `<?xml version=\"1.0\" encoding=\"UTF-8\"?> \
+                    <S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\">\
+                        <SOAP-ENV:Header/>\
+                            <S:Body xmlns:ns2=\"http://paq/\">\
+                                 <ns2:convertirMoneda>\
+                                     <arg0>${valuecurrency}</arg0>\
+                                     <arg1>${currencyName1}</arg1>\
+                                     <arg2>${currencyName2}</arg2>\
+                                </ns2:convertirMoneda>\
+                            </S:Body>\
+                    </S:Envelope>`
+            }
+            
+            
+            $.ajax(settings).done(function (response) {
+                console.log(typeof response);
+                console.log(response);
+                var retur = response.getElementsByTagName("return")[0].textContent;
+                //var xmlString = ( new XMLSerializer().serializeToString(retur));
+                console.log(retur);
+
+                alert(response.toString());
+                //document.getElementById("valueConverted").value = response.toString();
+                $('#valueConverted').val(retur.toString());
+                // var box = $('#valueConverted').data();
+                // $('#valueConverted').data({
+                //     data : response,
+                //     "data" : data(response.toString) 
+                // });
+
+
+                
+            });
+        });
+    });
+</script>
+
+</html>

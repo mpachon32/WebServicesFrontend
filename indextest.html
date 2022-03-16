@@ -1,0 +1,29 @@
+<html>
+
+<head>
+    <script>
+        // fetch('http://localhost:9090/ws-paises/Calculos/hello')
+        // .then((respuesta) => {
+        //     return respuesta.json();
+        // }).then((respuesta) => {
+        //     document.getElementById('nombre').value =respuesta.italia;
+        // })
+        fetch("http://localhost:9090/ws-paises/Calculos/elloRequest", {
+            body: JSON.stringify({ name: 'usa'}),
+            method: 'POST',
+        })
+            .then(response => response.json())
+            .then(valor => {
+                console.log(valor);
+            })
+    </script>
+</head>
+
+<body>
+    <div id="informacion">
+        <input type="text" id="nombre" value="Cargando..." />
+    </div>
+
+</body>
+
+</html>
